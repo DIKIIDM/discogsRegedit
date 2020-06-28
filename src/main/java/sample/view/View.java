@@ -7,14 +7,15 @@ import sample.Main;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class View {
-    Parent view;
-    Executor exec;
-    Controller controller;
-    Main mainApp;
+public abstract class View {
+    protected Parent node;
+    protected Executor exec;
+    protected Controller controller;
+    protected Main mainApp;
+    protected String caption;
     //----------------------------------------------------------------------------------
-    public void initialize() {
-        exec = Executors.newCachedThreadPool(runnable -> {
+    protected void initialize() {
+        this.exec = Executors.newCachedThreadPool(runnable -> {
             Thread t = new Thread(runnable);
             t.setDaemon(true);
             return t;
@@ -22,11 +23,9 @@ public class View {
         initPane();
     }
     //----------------------------------------------------------------------------------
-    public Parent asParent() {
-        return view;
+    public Parent getNode() {
+        return node;
     }
     //----------------------------------------------------------------------------------
-    public void initPane() {
-
-    }
+    protected abstract void initPane();
 }

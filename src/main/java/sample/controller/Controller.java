@@ -1,4 +1,4 @@
 package sample.controller;
 
-public class Controller {
+public abstract class Controller {
 }
