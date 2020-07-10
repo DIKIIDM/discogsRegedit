@@ -1,8 +1,10 @@
-package sample.view;
+package sample.ui;
 
+import javafx.application.Platform;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import sample.controller.Controller;
 import sample.Main;
+import sample.controller.Controller;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -28,4 +30,10 @@ public abstract class View {
     }
     //----------------------------------------------------------------------------------
     protected abstract void initPane();
+    //----------------------------------------------------------------------------------
+    public void setCursor(Cursor cursor) {
+        Platform.runLater(() -> {
+            mainApp.getPrimaryStage().getScene().setCursor(cursor);
+        });
+    }
 }

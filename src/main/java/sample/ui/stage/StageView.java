@@ -1,18 +1,20 @@
-package sample.view;
+package sample.ui.stage;
 
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import sample.Main;
-import sample.controller.C_Stage;
+import sample.ui.View;
 
-public class V_Stage extends View {
+public class StageView extends View {
     private TabPane tabPane;
     //----------------------------------------------------------------------------------
-    public V_Stage(Main mainApp) {
-        this.controller = new C_Stage();
+    public StageView(Main mainApp) {
+        this.controller = new StageController();
         this.mainApp = mainApp;
         initialize();
+
+        regTab("regedit", "main");
     }
     //----------------------------------------------------------------------------------
     @Override
@@ -41,7 +43,7 @@ public class V_Stage extends View {
     private void regTab(String selection, String representation) {
         Tab tab = new Tab();
         tab.setClosable(true);
-        tab.setText("");
+        tab.setText("Regedit");
         tab.setContent(mainApp.getViewFactory().regView(selection, representation).getNode());
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);

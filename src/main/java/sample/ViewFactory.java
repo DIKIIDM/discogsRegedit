@@ -1,8 +1,10 @@
 package sample;
 
-import sample.view.V_Regedit;
-import sample.view.View;
-import sample.view.V_Stage;
+import sample.ui.View;
+import sample.ui.regedit.RegeditView;
+import sample.ui.stage.StageView;
+import sample.ui.vinyl.VinylListView;
+
 public class ViewFactory {
     private Main mainApp = null;
     //----------------------------------------------------------------------------------
@@ -14,11 +16,15 @@ public class ViewFactory {
         View result = null;
         if (selection.equalsIgnoreCase("stage")) {
             if (representation.equalsIgnoreCase("main")) {
-                result = new V_Stage(this.mainApp);
+                result = new StageView(this.mainApp);
             }
         } else if (selection.equalsIgnoreCase("regedit")) {
             if (representation.equalsIgnoreCase("main")) {
-                result = new V_Regedit(this.mainApp);
+                result = new RegeditView(this.mainApp);
+            }
+        } else if (selection.equalsIgnoreCase("vinyl")) {
+            if (representation.equalsIgnoreCase("list")) {
+                result = new VinylListView(this.mainApp);
             }
         }
         return result;
