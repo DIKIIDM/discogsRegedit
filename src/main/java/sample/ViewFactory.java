@@ -1,6 +1,7 @@
 package sample;
 
 import sample.ui.View;
+import sample.ui.location.LocationTreeView;
 import sample.ui.regedit.RegeditView;
 import sample.ui.stage.StageView;
 import sample.ui.vinyl.VinylListView;
@@ -25,6 +26,10 @@ public class ViewFactory {
         } else if (selection.equalsIgnoreCase("vinyl")) {
             if (representation.equalsIgnoreCase("list")) {
                 result = new VinylListView(this.mainApp);
+            }
+        } else if (selection.equalsIgnoreCase("location")) {
+            if (representation.equalsIgnoreCase("tree")) {
+                result = new LocationTreeView(this.mainApp);
             }
         }
         return result;

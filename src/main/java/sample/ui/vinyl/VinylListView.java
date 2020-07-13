@@ -12,6 +12,7 @@ import sample.ui.List;
 import java.util.ArrayList;
 
 public class VinylListView extends List {
+    //----------------------------------------------------------------------------------
     public VinylListView(Main mainApp) {
         this.controller = new VinylListController(new JDBCVinylRepository());
         this.mainApp = mainApp;

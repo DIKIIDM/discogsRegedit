@@ -15,6 +15,8 @@ public class RegeditView extends View {
     @Override
     public void initPane() {
         node = new BorderPane();
+        View locationlView = mainApp.getViewFactory().regView("location", "tree");
+        ((BorderPane)node).setLeft(locationlView.getNode());
 
         View vinylView = mainApp.getViewFactory().regView("vinyl", "list");
         ((BorderPane)node).setCenter(vinylView.getNode());

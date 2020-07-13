@@ -36,6 +36,7 @@ public class List extends View {
         initMenu();
         initList();
         initColumns();
+        initRowFactory();
         refresh();
     }
     //----------------------------------------------------------------------------------
@@ -188,6 +189,14 @@ public class List extends View {
         return new ArrayList<>();
     }
     //----------------------------------------------------------------------------------
+    public Entity insert(Entity object) {
+        return null;
+    }
+    //----------------------------------------------------------------------------------
+    public void insertAfter() {
+
+    }
+    //----------------------------------------------------------------------------------
     public void deleteObj(java.util.List<? extends Entity> items) {
 
     }
@@ -234,5 +243,9 @@ public class List extends View {
     //----------------------------------------------------------------------------------
     public void setTitle(String value) {
         this.title.setText(value);
+    }
+    //----------------------------------------------------------------------------------
+    public void initRowFactory() {
+
     }
 }
