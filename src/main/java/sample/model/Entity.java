@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public abstract class Entity {
     public Integer id;
-
+    //----------------------------------------------------------------------------------
     public String getAttrValue(String sAttr) {
         Object value = new Object();
         try {
@@ -16,8 +16,8 @@ public abstract class Entity {
         }
         return (value == null? "": value.toString());
     }
-
-    public boolean set(String fieldName, Object fieldValueNew, Object fieldValueOld) {
+    //----------------------------------------------------------------------------------
+    public boolean set(String fieldName, String fieldNameRepo, Object fieldValueNew, Object fieldValueOld) {
         if (fieldValueNew.toString().equals(fieldValueOld.toString())) return false;
         Class<?> clazz = this.getClass();
         while (clazz != null) {

@@ -7,7 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import sample.Core;
 import sample.model.Entity;
+import sample.model.Location;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,26 +33,29 @@ public class Tree extends List {
         treeTableView.setEditable(true);
         treeTableView.setRoot(treeTableRoot);
         ((BorderPane)node).setCenter(treeTableView);
-
-        final ContextMenu contextMenu = new ContextMenu();
-        MenuItem miAdd = new MenuItem("Add");
-        miAdd.setOnAction(event-> {
-            add();
-        });
-        contextMenu.getItems().addAll(miAdd);
-        treeTableView.setContextMenu(contextMenu);
     }
     //----------------------------------------------------------------------------------
-    public TreeTableColumn createTableColumn(String sAttr, String sTitle, boolean bReadOnly) {
+    public TreeTableColumn createTableColumn(String sAttr, String sAttrRepo, String sTitle, boolean bReadOnly) {
         TreeTableColumn<Entity, String> column = new TreeTableColumn<>(sTitle);
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>(sAttr));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         column.setEditable(!bReadOnly);
+
+        column.setOnEditCommit(event -> {
+            String sOld = Core.nvl(event.getOldValue(), "");
+            String sNew = Core.nvl(event.getNewValue(), "");
+            if (!sNew.equals(sOld)) {
+                int rowIndx = event.getTreeTablePosition().getRow();
+                Entity entity = event.getTreeTableView().getTreeItem(rowIndx).getValue();
+                entity.set(sAttr, sAttrRepo, sNew, sOld);
+            }
+        });
+
         return column;
     }
     //----------------------------------------------------------------------------------
-    public TreeTableColumn createTableColumn(String sAttr, String sTitle, boolean bReadOnly, Double prefWidth) {
-        TreeTableColumn<Entity, String> column = createTableColumn(sAttr, sTitle, bReadOnly);
+    public TreeTableColumn createTableColumn(String sAttr, String sAttrRepo, String sTitle, boolean bReadOnly, Double prefWidth) {
+        TreeTableColumn<Entity, String> column = createTableColumn(sAttr, sAttrRepo, sTitle, bReadOnly);
         if (prefWidth != null) column.setPrefWidth(prefWidth);
         return column;
     }
@@ -93,13 +98,17 @@ public class Tree extends List {
                 if (treeTableView != null)
                     treeTableView.setPlaceholder(null);
             });
-            insertAfter(parent, (Entity) insertTask.getValue());
+            insertAfter(parent, (Entity)insertTask.getValue());
         });
         exec.execute(insertTask);
     }
     //----------------------------------------------------------------------------------
     public void insertAfter(TreeItem<Entity> parent, Entity object) {
-        parent.getChildren().add(new TreeItem<>(object));
+        TreeItem<Entity> treeItem = new TreeItem<>(object);
+        if (parent != null)
+            parent.getChildren().add(treeItem);
+        else
+            treeTableRoot.getChildren().add(treeItem);
     }
     //----------------------------------------------------------------------------------
     @Override
@@ -154,8 +163,9 @@ public class Tree extends List {
                     }
                 };
                 deleteObjTask.setOnFailed(e -> {
-                    deleteObjTask.getException().printStackTrace();
+                    //deleteObjTask.getException().printStackTrace();
                     setCursor(Cursor.DEFAULT);
+                    mainApp.alertError("Error", "Error", deleteObjTask.getException().getMessage().toString());
                 });
                 deleteObjTask.setOnSucceeded(e -> {
                     if (deleteObjTask.getValue()) {
@@ -188,5 +198,10 @@ public class Tree extends List {
             else
                 treeTableView.setRoot(null);
         }
+    }
+    //----------------------------------------------------------------------------------
+    @Override
+    public void insert() {
+        add();
     }
 }

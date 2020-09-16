@@ -23,14 +23,13 @@ public class LocationTreeView extends Tree {
         this.controller = new LocationTreeController(new JDBCLocalRepository());
         this.mainApp = mainApp;
         initialize();
-        setTitle("Местонахождение");
+        setTitle("Location");
     }
     //----------------------------------------------------------------------------------
     @Override
     public void initColumns() {
         treeTableView.getColumns().addAll(
-                 createTableColumn("code", "Код", false)
-                ,createTableColumn("title", "Название", false)
+                createTableColumn("title", "sTitle", "Title", false)
         );
     }
     //----------------------------------------------------------------------------------
@@ -44,6 +43,7 @@ public class LocationTreeView extends Tree {
         treeTableRoot = new TreeItem<>(new Location(-1, "ROOT", "ROOT", null, null, null));
         treeTableRoot.setExpanded(true);
         treeTableView.setRoot(treeTableRoot);
+        treeTableView.setShowRoot(false);
         for (int i = 0; i < lpObject.size(); i++) {
             TreeItem<Entity> treeItem = new TreeItem<>(((List<Location>)lpObject).get(i));
             treeItem.setExpanded(true);
@@ -93,6 +93,28 @@ public class LocationTreeView extends Tree {
     //----------------------------------------------------------------------------------
     @Override
     public void insert(TreeItem<Entity> parent) {
-        insert(parent, new Location());
+        Location obj = new Location();
+        if (parent != null)
+            obj.idParent = parent.getValue().id;
+        insert(parent, obj);
+    }
+    //----------------------------------------------------------------------------------
+    @Override
+    public void deleteObj(java.util.List<? extends Entity> items) {
+        ((LocationTreeController)this.controller).delete((List<Location>)items);
+    }
+    //----------------------------------------------------------------------------------
+    @Override
+    public void initListContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem miAdd = new MenuItem("Add");
+        miAdd.setOnAction(event-> add());
+
+        MenuItem miRefresh = new MenuItem("Refresh");
+        miRefresh.setOnAction(event-> refresh());
+
+        contextMenu.getItems().addAll(miAdd, miRefresh);
+        treeTableView.setContextMenu(contextMenu);
     }
 }

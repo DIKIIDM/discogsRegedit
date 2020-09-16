@@ -22,4 +22,8 @@ public class LocationTreeController extends Controller {
     public Entity insert(Entity object) {
         return locationRepository.insert((Location)object);
     }
+    //----------------------------------------------------------------------------------
+    public void delete(List<Location> lObj) {
+        locationRepository.delete(lObj);
+    }
 }

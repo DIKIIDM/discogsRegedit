@@ -42,7 +42,7 @@ public class Main extends Application {
     public Stage getPrimaryStage() {
         return this.primaryStage;
     }
-
+    
     //----------------------------------------------------------------------------------
     public boolean showDialogMsg(String sTitle, String sHeader, String sText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -51,5 +51,14 @@ public class Main extends Application {
         alert.setContentText(sText);
         Optional<ButtonType> result = alert.showAndWait();
         return (result.get() == ButtonType.OK);
+    }
+    //----------------------------------------------------------------------------------
+    public void alertError(String sTitle, String sHeader, String sText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(sTitle);
+        alert.setHeaderText(sHeader);
+        alert.setContentText(sText);
+        //  alert.initOwner(getPrimaryStage());
+        alert.showAndWait();
     }
 }

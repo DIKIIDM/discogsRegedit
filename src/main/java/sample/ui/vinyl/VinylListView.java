@@ -23,12 +23,12 @@ public class VinylListView extends List {
     @Override
     public void initColumns() {
         tableView.getColumns().addAll(
-                 createColumn("title", "Название", false)
-                ,createColumn("artist", "Артист", false)
-                ,createColumn("label", "Лейбл", false)
-                ,createColumn("catno", "Catno", false)
-                ,createColumn("year", "Год", false)
-                ,createColumn("price", "Цена", false)
+                 createColumn("title", "title", "Название", false)
+                ,createColumn("artist", "artist", "Артист", false)
+                ,createColumn("label", "label", "Лейбл", false)
+                ,createColumn("catno", "catno", "Catno", false)
+                ,createColumn("year", "year", "Год", false)
+                ,createColumn("price", "price", "Цена", false)
         );
     }
     //----------------------------------------------------------------------------------

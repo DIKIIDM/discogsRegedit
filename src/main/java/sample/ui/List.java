@@ -35,6 +35,7 @@ public class List extends View {
         initTitle();
         initMenu();
         initList();
+        initListContextMenu();
         initColumns();
         initRowFactory();
         refresh();
@@ -122,22 +123,22 @@ public class List extends View {
 
     }
     //----------------------------------------------------------------------------------
-    public TableColumn createColumn(String sAttr, String sTitle, boolean bReadOnly) {
+    public TableColumn createColumn(String sAttr, String sAttrRepo, String sTitle, boolean bReadOnly) {
         TableColumn<Entity, String> tColumn = new TableColumn<>(sTitle);
         tColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         tColumn.setCellFactory(column -> EditCell.createStringEditCell(bReadOnly));
         tColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAttrValue(sAttr)));
         tColumn.setOnEditCommit(t -> {
             if (t.getTablePosition() != null) {
-                t.getTableView().getItems().get(t.getTablePosition().getRow()).set(sAttr, t.getNewValue(), t.getOldValue());
+                t.getTableView().getItems().get(t.getTablePosition().getRow()).set(sAttr, sAttrRepo, t.getNewValue(), t.getOldValue());
             }
         });
 
         return tColumn;
     }
     //----------------------------------------------------------------------------------
-    public TableColumn createColumn(String sAttr, String sTitle, boolean bReadOnly, Double prefWidth) {
-        TableColumn<Entity, String> tColumn = createColumn(sAttr, sTitle, bReadOnly);
+    public TableColumn createColumn(String sAttr, String sAttrRepo, String sTitle, boolean bReadOnly, Double prefWidth) {
+        TableColumn<Entity, String> tColumn = createColumn(sAttr, sAttrRepo, sTitle, bReadOnly);
         tColumn.setPrefWidth(prefWidth);
         return tColumn;
     }
@@ -246,6 +247,10 @@ public class List extends View {
     }
     //----------------------------------------------------------------------------------
     public void initRowFactory() {
+
+    }
+    //----------------------------------------------------------------------------------
+    public void initListContextMenu() {
 
     }
 }
